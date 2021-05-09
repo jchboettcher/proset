@@ -80,7 +80,6 @@ const Level = ({ level, setEntry }) => {
     fst = Math.ceil((n+1)/2)
     rows = [fst, n+1-fst]
     tot = 2**n
-    promptCount = 0
     buttonCols = [p5.color(20,20,240), p5.color(230,0,0), p5.color(0,210,0), p5.color(20,20,240)]
     p5.textSize(17)
     buttonWidths = buttonTexts.map(el => p5.textWidth(el)*1.21+34)
@@ -147,6 +146,7 @@ const Level = ({ level, setEntry }) => {
     }
     progressBar.reset()
     timer.reset()
+    promptCount = 0
   }
 
   const setVis = on => {
@@ -254,7 +254,9 @@ const Level = ({ level, setEntry }) => {
           const boardLength = data.usersBy1.length
           if (boardLength == 10) {
             newRecord = data.usersBy1[9].score1 > time
-            // console.log(newRecord,time,data.usersBy1)
+            console.log(newRecord,time,data.usersBy1)
+          } else {
+            console.log("nope")
           }
           if (newRecord) {
             let initials = prompt("Initials?")
