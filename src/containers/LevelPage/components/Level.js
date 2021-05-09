@@ -254,7 +254,7 @@ const Level = ({ level, setEntry }) => {
           let newRecord = true
           const boardLength = data.usersBy1.length
           if (boardLength == boardLimit) {
-            newRecord = data.usersBy1[9].score1 > time
+            newRecord = data.usersBy1[boardLimit-1].score1 > time
             console.log(newRecord,time,data.usersBy1)
           } else {
             console.log("nope")
