@@ -11,13 +11,14 @@ import {
   Paragraph,
 } from '../styles'
 import { GET_RANKINGS } from '../../graphql'
+import { boardLimit } from '../'
 
 const Leaderboard = ({ level, boldEntry }) => {
   const { data, error: queryError, loading: queryLoading } = useQuery(GET_RANKINGS, {
     variables: {
       game: "proset",
       level: parseInt(level),
-      limit: 10,
+      limit: boardLimit,
     },
     partialRefetch: true,
     onError: error => { return },

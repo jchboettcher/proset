@@ -3,6 +3,7 @@ import { useQuery, useMutation } from '@apollo/react-hooks'
 import Sketch from 'react-p5'
 import { useHistory } from 'react-router-dom'
 import { GET_RANKINGS, ADD_USER } from '../../graphql'
+import { boardLimit } from '../'
 
 const Level = ({ level, setEntry }) => {
 
@@ -11,7 +12,7 @@ const Level = ({ level, setEntry }) => {
     variables: {
       game: "proset",
       level: parseInt(level),
-      limit: 10,
+      limit: boardLimit,
     },
     partialRefetch: true,
     onError: error => { return },
@@ -23,7 +24,7 @@ const Level = ({ level, setEntry }) => {
       variables: {
         game: "proset",
         level: parseInt(level),
-        limit: 10,
+        limit: boardLimit,
       }
     }],
     onError: error => { return },
@@ -252,7 +253,7 @@ const Level = ({ level, setEntry }) => {
           time = Math.floor(time/10)*10
           let newRecord = true
           const boardLength = data.usersBy1.length
-          if (boardLength == 10) {
+          if (boardLength == boardLimit) {
             newRecord = data.usersBy1[9].score1 > time
             console.log(newRecord,time,data.usersBy1)
           } else {

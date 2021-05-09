@@ -13,7 +13,7 @@ export const LevelDiv = styled.div`
 `
 
 export const LeaderboardDiv = styled.div`
-  padding: 0px 0px 0px 50px;
+  padding: 0px 0px 80px 50px;
   display: flex;
   flex-direction: column;
 `
@@ -51,7 +51,7 @@ export const Paragraph = styled.p`
 `
 
 export const StyledTd = styled.td`
-  padding: 7px;
+  padding: 6px;
   border: solid;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 15px;
@@ -60,7 +60,7 @@ export const StyledTd = styled.td`
 `
 
 export const RankTd = styled(StyledTd)`
-  width: 52px;
+  width: 50px;
 `
 
 export const NameTd = styled(StyledTd)`
@@ -82,6 +82,13 @@ export const StyledTableBody = styled.tbody`
 
 export const StyledTableHead = styled.thead`
   font-weight: bold;
-  font-size: 18px;
+  /* font-size: 18px; */
   background-color: rgb(210,210,210);
+`
+
+export const LeaderboardHeader = styled.h1`
+  margin-top: 0px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 24px;
+  font-weight: bold;
 `

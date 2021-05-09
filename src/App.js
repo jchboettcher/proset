@@ -4,8 +4,7 @@ import { Switch, Route, BrowserRouter as Router, Redirect } from 'react-router-d
 import { ThemeProvider } from 'styled-components'
 import theme from './theme'
 import client from './client'
-import LevelPage from './containers/LevelPage'
-import Leaderboard from './containers/Leaderboard'
+import { LevelPage } from './containers/LevelPage'
 
 const App = () => (
   <Router basename="/proset" >

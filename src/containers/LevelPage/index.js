@@ -3,13 +3,15 @@ import { useParams } from 'react-router-dom'
 import {
   // LeaderboardDiv,
   BackgroundDiv, CenterDiv, LevelDiv,
-  Paragraph, Title, LeaderboardDiv,
+  Paragraph, Title, LeaderboardDiv, LeaderboardHeader,
   // LeaderboardHeader,
 } from './styles'
 import Level from './components/Level'
 import Leaderboard from './components/Leaderboard'
 
-const LevelPage = () => {
+export const boardLimit = 25
+
+export const LevelPage = () => {
   const { level } = useParams()
   useEffect(() => {
     document.title = `ProSet - ${level}`
@@ -34,6 +36,7 @@ const LevelPage = () => {
           <LevelDiv>
             <Level level={level} setEntry={setEntry} />
             <LeaderboardDiv>
+              <LeaderboardHeader>Leaderboard (top 25)</LeaderboardHeader>
               <Leaderboard level={level} boldEntry={entry} />
             </LeaderboardDiv>
           </LevelDiv>
@@ -47,5 +50,3 @@ const LevelPage = () => {
     // </BackgroundDiv>
   )
 }
-
-export default LevelPage
