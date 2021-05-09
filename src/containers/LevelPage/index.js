@@ -10,10 +10,10 @@ import Level from './components/Level'
 import Leaderboard from './components/Leaderboard'
 
 const LevelPage = () => {
-  useEffect(() => {
-    document.title = `ProSet - ${location.search.substring(1)}`
-  }, [])
   const { level } = useParams()
+  useEffect(() => {
+    document.title = `ProSet - ${level}`
+  }, [])
   const [entry, setEntry] = useState({})
   // let won = false
   // if (win && !won) {
