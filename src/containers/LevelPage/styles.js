@@ -64,7 +64,7 @@ export const RankTd = styled(StyledTd)`
 `
 
 export const NameTd = styled(StyledTd)`
-  width: 100px;
+  width: 135px;
 `
 
 export const TimeTd = styled(StyledTd)`

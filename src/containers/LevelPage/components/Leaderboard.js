@@ -30,7 +30,7 @@ const Leaderboard = ({ level, boldEntry }) => {
         <StyledTableHead>
           <tr>
             <RankTd>Rank</RankTd>
-            <NameTd>Initials</NameTd>
+            <NameTd>Name</NameTd>
             <TimeTd>Time</TimeTd>
           </tr>
         </StyledTableHead>

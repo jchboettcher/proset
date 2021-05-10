@@ -260,7 +260,7 @@ const Level = ({ level, setEntry }) => {
             console.log("nope")
           }
           if (newRecord) {
-            let initials = prompt("You made the leaderboard! Initials?")
+            let initials = prompt("You made the leaderboard! Name?")
             initials = !!initials ? initials : "anon."
             // console.log(time,initials)
             setEntry({name: initials, score1: time})
