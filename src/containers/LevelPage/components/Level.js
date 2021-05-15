@@ -68,7 +68,6 @@ const Level = ({ level, setEntry }) => {
   let promptCount = 0
 
   const setup = (p5, canvasParentRef) => {
-    // console.log(n)
     p5.createCanvas(5*side+4*btwn+2*offsetx, 2*side+btwn+offsettop+offsetbot).parent(canvasParentRef)
     startOver(p5)
   }
@@ -122,7 +121,6 @@ const Level = ({ level, setEntry }) => {
       const rlen = rows[r]*(w+btwn) - btwn
       locs.push({x: -rlen/2+c*(w+btwn), y: -h-btwn/2+r*(h+btwn)})
     }
-    // console.log(locs)
     reset(p5)
   }
 
@@ -215,12 +213,6 @@ const Level = ({ level, setEntry }) => {
       }
     }
   }
-  
-  const keyPressed = (p5) => {
-    // if (p5.key == 'p') {
-    //   timer.done = new Date(8203620)
-    // }
-  }
 
   const draw = (p5) => {
     p5.background(247)
@@ -238,15 +230,11 @@ const Level = ({ level, setEntry }) => {
       timer.show()
       p5.translate(p5.width/2,p5.height/2+(offsettop-offsetbot)/2)
       for (let i = 0; i < n+1; i++) {
-        // console.log(i,n,i<n+1)
         const card = cards[i]
         if (!!card){
-          // console.log(n,i,locs[i],locs)
           card.show(locs[i])
           card.update()
         }
-        // console.log(-rlen/2+c*(w+btwn),-h-btwn/2+r*(h+btwn),frameCount)
-        // card.show(0,0)
       }
       if (timer.done) {
         p5.textAlign(p5.CENTER,p5.CENTER)
@@ -262,15 +250,11 @@ const Level = ({ level, setEntry }) => {
           if (boardLength == boardLimit) {
             newRecord = data.usersBy1[boardLimit-1].score1 > time
             console.log(newRecord,time,data.usersBy1)
-          } else {
-            console.log("nope")
           }
           if (newRecord) {
             let initials = prompt("You made the leaderboard! Name?")
             initials = !!initials ? initials : "anon."
-            // console.log(time,initials)
             setEntry({name: initials, score1: time})
-            // console.log({name: initials, score1: time})
             addUser({
               variables: {
                 input: {
@@ -329,7 +313,6 @@ const Level = ({ level, setEntry }) => {
     }
   
     update() {
-      // if (this.selected) {
       this.t += 0.3
       this.angle = this.dir*0.1*1.4**(-this.t)*Math.sin(this.t)
       if (this.colort < 1) {
@@ -338,7 +321,6 @@ const Level = ({ level, setEntry }) => {
       if (this.entert > 0) {
         this.entert -= 0.04
       }
-      // }
     }
   
     show({x,y}) {
@@ -350,8 +332,6 @@ const Level = ({ level, setEntry }) => {
       this.p5.rotate(this.angle)
       if (this.selected) {
         this.p5.scale(1.05)
-        // p5.fill(0)
-        // p5.stroke(255)
         this.p5.strokeWeight(3)
         this.p5.colorMode(this.p5.HSB)
         const from = this.p5.color(5,97,100)
@@ -488,7 +468,6 @@ const Level = ({ level, setEntry }) => {
       this.id = id
       this.visible = (id < 4)
       this.corners = (id < 4) ? [1,1,1,1] : [id==4,id==5,id==9,id==8]
-      // this.corners = [1,1,1,1]
       this.p5 = p5
     }
   
@@ -550,7 +529,7 @@ const Level = ({ level, setEntry }) => {
   }
 
   return (
-    <Sketch setup={setup} draw={draw} mousePressed={mousePressed} keyPressed={keyPressed} />
+    <Sketch setup={setup} draw={draw} mousePressed={mousePressed} />
   )
 }
 

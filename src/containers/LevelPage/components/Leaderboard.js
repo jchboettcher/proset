@@ -62,7 +62,6 @@ const Leaderboard = ({ level, boldEntry }) => {
               <Entry
                 key={entry.id}
                 index={data.usersBy1.indexOf(entry)}
-                // boldEntry={boldEntry}
                 {...entry}
               />
             ) : ''

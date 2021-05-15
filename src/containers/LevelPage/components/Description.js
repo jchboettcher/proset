@@ -21,8 +21,18 @@ const Description = ({
     const datePart = str.substring(0,10)
     const timePart = str.substring(11,19)
     const date = new Date(datePart+"T"+timePart+"+00:00")
-    const dateStr = date.toLocaleDateString("en-US", {timeZone:'America/New_York',day:'numeric',month:'numeric',year:'2-digit'})
-    const timeStr = date.toLocaleTimeString("en-GB", {timeZone:'America/New_York',hour:'numeric',minute:'numeric',second:'numeric'})
+    const dateStr = date.toLocaleDateString("en-US", {
+      timeZone:'America/New_York',
+      day:'numeric',
+      month:'numeric',
+      year:'2-digit',
+    })
+    const timeStr = date.toLocaleTimeString("en-GB", {
+      timeZone:'America/New_York',
+      hour:'numeric',
+      minute:'numeric',
+      second:'numeric',
+    })
     return timeStr+', '+dateStr
   }
   const extraStyle = {}

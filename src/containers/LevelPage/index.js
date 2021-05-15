@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import {
-  // LeaderboardDiv,
   BackgroundDiv, CenterDiv, LevelDiv,
   Paragraph, Title, LeaderboardDiv, LeaderboardHeader,
-  // LeaderboardHeader,
 } from './styles'
 import Level from './components/Level'
 import Leaderboard from './components/Leaderboard'
@@ -17,11 +15,6 @@ export const LevelPage = () => {
     document.title = `ProSet - ${level}`
   }, [])
   const [entry, setEntry] = useState({})
-  // let won = false
-  // if (win && !won) {
-  //   won = true
-  //   prompt("Initials?")
-  // }
   return (
     <CenterDiv>
       <BackgroundDiv>
@@ -42,11 +35,5 @@ export const LevelPage = () => {
           </LevelDiv>
       </BackgroundDiv>
     </CenterDiv>
-    // <BackgroundDiv>
-    //   <LeaderboardDiv>
-    //     <LeaderboardHeader>Leaderboard</LeaderboardHeader>
-    //     <Scores/>
-    //   </LeaderboardDiv>
-    // </BackgroundDiv>
   )
 }
