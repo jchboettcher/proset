@@ -41,7 +41,7 @@ const Description = ({
     extraStyle.fontWeight = "bold"
     nameStyle.fontWeight = "bold"
   }
-  if (name == "anon.") {
+  if (name == "anonymous") {
     nameStyle.fontStyle = "italic"
   }
   return (

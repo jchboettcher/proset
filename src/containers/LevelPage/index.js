@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import {
   BackgroundDiv, CenterDiv, LevelDiv,
@@ -11,9 +11,6 @@ export const boardLimit = 200
 
 export const LevelPage = () => {
   const { level } = useParams()
-  useEffect(() => {
-    document.title = `ProSet - ${level}`
-  }, [])
   const [entry, setEntry] = useState({})
   return (
     <CenterDiv>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import Sketch from 'react-p5'
 import { useHistory } from 'react-router-dom'
@@ -6,8 +6,10 @@ import { GET_RANKINGS, ADD_USER } from '../../graphql'
 import { boardLimit } from '../'
 
 const Level = ({ level, setEntry }) => {
-
   const history = useHistory()
+  useEffect(() => {
+    document.title = `ProSet - ${level}`
+  }, [level])
   const { data, error: queryError, loading: queryLoading } = useQuery(GET_RANKINGS, {
     variables: {
       game: "proset",
@@ -253,7 +255,7 @@ const Level = ({ level, setEntry }) => {
           }
           if (newRecord) {
             let initials = prompt("You made the leaderboard! Name?")
-            initials = !!initials ? initials : "anon."
+            initials = !!initials ? initials : "anonymous"
             setEntry({name: initials, score1: time})
             addUser({
               variables: {
