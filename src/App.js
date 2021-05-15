@@ -16,7 +16,7 @@ const App = () => (
               exact path={`/:level(4|5|6|7|8|9)`}
               component={LevelPage}
             />
-            <Redirect to='/4' />
+            <Redirect to='/6' />
           </Switch>
         </div>
       </ApolloProvider>

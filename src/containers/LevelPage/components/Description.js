@@ -1,8 +1,8 @@
 import React from 'react'
-import { RankTd, NameTd, TimeTd } from '../styles'
+import { RankTd, NameTd, TimeTd, DateTd } from '../styles'
 
 const Description = ({
-  index, name, score1, bold,
+  index, name, score1, createdAt, bold,
 }) => {
   const pad = (s) => {
     return (s < 10 ? "0" : "") + s
@@ -16,6 +16,14 @@ const Description = ({
     elapsed = elapsed % 1000
     const mls = Math.floor(elapsed/10)
     return `${hrs}:${pad(mns)}:${pad(scs)}.${pad(mls)}`
+  }
+  const getDateString = str => {
+    const datePart = str.substring(0,10)
+    const timePart = str.substring(11,19)
+    const date = new Date(datePart+"T"+timePart+"+00:00")
+    const dateStr = date.toLocaleDateString("en-US", {timeZone:'America/New_York',day:'numeric',month:'numeric',year:'2-digit'})
+    const timeStr = date.toLocaleTimeString("en-GB", {timeZone:'America/New_York',hour:'numeric',minute:'numeric',second:'numeric'})
+    return timeStr+', '+dateStr
   }
   const extraStyle = {}
   const nameStyle = {}
@@ -31,6 +39,7 @@ const Description = ({
       <RankTd style={extraStyle}>{`${index + 1}`}</RankTd>
       <NameTd style={nameStyle}>{`${name}`}</NameTd>
       <TimeTd style={extraStyle}>{`${getTimeString(score1)}`}</TimeTd>
+      <DateTd style={extraStyle}>{`${getDateString(createdAt)}`}</DateTd>
     </tr>
   )
 }

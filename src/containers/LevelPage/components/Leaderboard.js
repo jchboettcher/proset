@@ -6,6 +6,7 @@ import {
   RankTd,
   NameTd,
   TimeTd,
+  DateTd,
   StyledTableBody,
   StyledTableHead,
   Paragraph,
@@ -24,24 +25,44 @@ const Leaderboard = ({ level, boldEntry }) => {
     onError: error => { return },
     onCompleted: data => { return },
   })
+  const fixData = data => {
+    let maxInd = null
+    console.log(boldEntry)
+    for (let i = 0; i < data.usersBy1.length; i++) {
+      const entry = data.usersBy1[i]
+      console.log(entry)
+      if (!!entry) {
+        entry.bold = false
+      }
+      if (!!entry && !!boldEntry && boldEntry.name == entry.name && boldEntry.score1 == entry.score1) {
+        maxInd = i
+      }
+    }
+    console.log(maxInd)
+    if (maxInd != null) {
+      data.usersBy1[maxInd].bold = true
+    }
+    return data
+  }
   return (
     <>
       <StyledTable>
         <StyledTableHead>
           <tr>
             <RankTd>Rank</RankTd>
-            <NameTd>Name</NameTd>
+            <NameTd id="Name">Name</NameTd>
             <TimeTd>Time</TimeTd>
+            <DateTd>Timestamp (ET)</DateTd>
           </tr>
         </StyledTableHead>
         <StyledTableBody>
         {queryLoading || queryError || (
-          data.usersBy1.map(entry => (
+          fixData(data).usersBy1.map(entry => (
             entry ? (
               <Entry
                 key={entry.id}
                 index={data.usersBy1.indexOf(entry)}
-                boldEntry={boldEntry}
+                // boldEntry={boldEntry}
                 {...entry}
               />
             ) : ''

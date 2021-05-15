@@ -215,6 +215,12 @@ const Level = ({ level, setEntry }) => {
       }
     }
   }
+  
+  const keyPressed = (p5) => {
+    // if (p5.key == 'p') {
+    //   timer.done = new Date(8203620)
+    // }
+  }
 
   const draw = (p5) => {
     p5.background(247)
@@ -544,7 +550,7 @@ const Level = ({ level, setEntry }) => {
   }
 
   return (
-    <Sketch setup={setup} draw={draw} mousePressed={mousePressed} />
+    <Sketch setup={setup} draw={draw} mousePressed={mousePressed} keyPressed={keyPressed} />
   )
 }
 

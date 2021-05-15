@@ -4,32 +4,30 @@ import React from 'react'
 // } from '../styles'
 import Description from './Description'
 
-const Entry = ({
-  index, name, score1, boldEntry
-}) => {
+const Entry = (props) => {
   // console.log(index,name,score1,boldEntry)
-  const bold = boldEntry.name == name && boldEntry.score1 == score1
-  const data = {
-    index, name, score1, bold
-  }
+  // const bold = boldEntry.name == name && boldEntry.score1 == score1
+  // const data = {
+  //   index, name, score1, bold
+  // }
   return (
     <>
-      {index
+      {props.index
         ? (
-            index % 2 ? (
+            props.index % 2 ? (
             // <OddEntryDiv>
-              <Description {...data} />
+              <Description {...props} />
             // </OddEntryDiv>
           )
             : (
             //   <EvenEntryDiv>
-                <Description {...data} />
+                <Description {...props} />
             //   </EvenEntryDiv>
             )
         )
         : (
         //   <TopEntryDiv>
-            <Description {...data} />
+            <Description {...props} />
         //   </TopEntryDiv>
         )}
     </>

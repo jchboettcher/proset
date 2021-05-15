@@ -9,7 +9,7 @@ import {
 import Level from './components/Level'
 import Leaderboard from './components/Leaderboard'
 
-export const boardLimit = 25
+export const boardLimit = 200
 
 export const LevelPage = () => {
   const { level } = useParams()
@@ -36,7 +36,7 @@ export const LevelPage = () => {
           <LevelDiv>
             <Level level={level} setEntry={setEntry} />
             <LeaderboardDiv>
-              <LeaderboardHeader>Leaderboard (top 25)</LeaderboardHeader>
+              <LeaderboardHeader>{`Leaderboard (top ${boardLimit})`}</LeaderboardHeader>
               <Leaderboard level={level} boldEntry={entry} />
             </LeaderboardDiv>
           </LevelDiv>

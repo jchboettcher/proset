@@ -51,24 +51,35 @@ export const Paragraph = styled.p`
 `
 
 export const StyledTd = styled.td`
-  padding: 6px;
+  padding: 5px;
   border: solid;
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 15px;
+  font-size: 13px;
   border-color: black;
   border-width: 1.5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `
 
 export const RankTd = styled(StyledTd)`
-  width: 50px;
+  width: 35px;
+  max-width: 35px;
 `
 
 export const NameTd = styled(StyledTd)`
-  width: 135px;
+  width: 155px;
+  max-width: 155px;
 `
 
 export const TimeTd = styled(StyledTd)`
-  width: 200px;
+  width: 74px;
+  max-width: 74px;
+`
+
+export const DateTd = styled(StyledTd)`
+  width: 113px;
+  max-width: 113px;
 `
 
 export const StyledTable = styled.table`
