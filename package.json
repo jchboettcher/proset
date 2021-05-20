@@ -1,18 +1,19 @@
 {
   "homepage": "https://jchboettcher.github.io/proset/",
-  "name": "client",
+  "name": "projective-set",
   "version": "1.0.0",
-  "description": "### Getting Started",
+  "description": "Source code for a 1-player version of the logic game Projective Set.",
   "main": "apollo.config.js",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "react-scripts test --env=jsdom",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "clean": "rm -rf node_modules package-lock.json && npm i"
   },
   "keywords": [],
-  "author": "",
+  "author": "Jack Boettcher",
   "license": "ISC",
   "dependencies": {
     "@apollo/react-hooks": "^4.0.0",

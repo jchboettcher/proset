@@ -10,7 +10,6 @@ const httpLink = new HttpLink({
   credentials: 'include',
 })
 
-
 const middlewareLink = new ApolloLink((operation, forward) => {
   const token = localStorage.getItem('token')
   if (token) {

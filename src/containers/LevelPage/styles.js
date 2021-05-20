@@ -5,13 +5,14 @@ export const BackgroundDiv = styled.div`
   flex-direction: column;
 `
 
-export const LevelDiv = styled.div`
+export const BodyDiv = styled.div`
   display: flex;
   flex-direction: row;
 `
 
 export const LeaderboardDiv = styled.div`
-  padding: 0px 0px 80px 50px;
+  padding-left: 40px;
+  padding-bottom: 75px;
   display: flex;
   flex-direction: column;
 `
@@ -24,23 +25,28 @@ export const CenterDiv = styled.div`
   margin-top: 10px;
 `
 
+export const EmptyDiv = styled.div`
+  height: 35px;
+`
+
 export const Title = styled.h1`
   font-weight: bold;
   font-size: 40px;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: ${({theme}) => theme.fonts.primary.family};
   margin-bottom: 0;
 `
 
 export const Subtitle = styled.h3`
-  font-weight: bold;
+  font-weight: normal;
+  font-style: italic;
   font-size: 18px;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: ${({theme}) => theme.fonts.primary.family};
   margin-top: 0;
   margin-bottom: 0;
 `
 
 export const Paragraph = styled.p`
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: ${({theme}) => theme.fonts.primary.family};
   font-size: 15px;
   margin-bottom: 25px;
 `
@@ -48,7 +54,7 @@ export const Paragraph = styled.p`
 export const StyledTd = styled.td`
   padding: 5px;
   border: solid;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: ${({theme}) => theme.fonts.primary.family};
   font-size: 13px;
   border-color: black;
   border-width: 1.5px;
@@ -92,7 +98,7 @@ export const StyledTableHead = styled.thead`
 
 export const LeaderboardHeader = styled.h1`
   margin-top: 0px;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: ${({theme}) => theme.fonts.primary.family};
   font-size: 24px;
   font-weight: bold;
 `

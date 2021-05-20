@@ -11,15 +11,18 @@ import {
   StyledTableHead,
   Paragraph,
 } from '../styles'
-import { GET_RANKINGS } from '../../graphql'
-import { boardLimit } from '../'
+import { GET_RANKINGS, GET_RECENT } from '../../graphql'
+import { boardLimit, recentLimit } from '../'
 
-const Leaderboard = ({ level, boldEntry }) => {
-  const { data, error: queryError, loading: queryLoading } = useQuery(GET_RANKINGS, {
-    variables: {
+const Leaderboard = ({ level, boldEntry, recent }) => {
+  const query = !!recent ? GET_RECENT : GET_RANKINGS
+  const queryString = !!recent ? "recentUsersBy1" : "usersBy1"
+  const { data, error: queryError, loading: queryLoading } = useQuery(query, {
+    variables : {
       game: "proset",
       level: parseInt(level),
-      limit: boardLimit,
+      limit: !!recent ? recentLimit : boardLimit,
+      time: 86400000,
     },
     partialRefetch: true,
     onError: error => { return },
@@ -27,10 +30,8 @@ const Leaderboard = ({ level, boldEntry }) => {
   })
   const fixData = data => {
     let maxInd = null
-    console.log(boldEntry)
-    for (let i = 0; i < data.usersBy1.length; i++) {
-      const entry = data.usersBy1[i]
-      console.log(entry)
+    for (let i = 0; i < data[queryString].length; i++) {
+      const entry = data[queryString][i]
       if (!!entry) {
         entry.bold = false
       }
@@ -38,9 +39,8 @@ const Leaderboard = ({ level, boldEntry }) => {
         maxInd = i
       }
     }
-    console.log(maxInd)
     if (maxInd != null) {
-      data.usersBy1[maxInd].bold = true
+      data[queryString][maxInd].bold = true
     }
     return data
   }
@@ -57,11 +57,11 @@ const Leaderboard = ({ level, boldEntry }) => {
         </StyledTableHead>
         <StyledTableBody>
         {queryLoading || queryError || (
-          fixData(data).usersBy1.map(entry => (
+          fixData(data)[queryString].map(entry => (
             entry ? (
               <Entry
                 key={entry.id}
-                index={data.usersBy1.indexOf(entry)}
+                index={data[queryString].indexOf(entry)}
                 {...entry}
               />
             ) : ''

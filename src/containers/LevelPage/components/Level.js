@@ -2,8 +2,8 @@ import React, { useEffect } from 'react'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import Sketch from 'react-p5'
 import { useHistory } from 'react-router-dom'
-import { GET_RANKINGS, ADD_USER } from '../../graphql'
-import { boardLimit } from '../'
+import { GET_RANKINGS, GET_RECENT, ADD_USER } from '../../graphql'
+import { boardLimit, recentLimit } from '../'
 
 const Level = ({ level, setEntry }) => {
   const history = useHistory()
@@ -20,15 +20,37 @@ const Level = ({ level, setEntry }) => {
     onError: error => { return },
     onCompleted: data => { return },
   })
+  const { data: recentData, error: recentError, loading: recentLoading } = useQuery(GET_RECENT, {
+    variables: {
+      game: "proset",
+      level: parseInt(level),
+      limit: recentLimit,
+      time: 86400000,
+    },
+    partialRefetch: true,
+    onError: error => { return },
+    onCompleted: data => { return },
+  })
   const [addUser, { data: addData, error: addError, loading: addLoading}] = useMutation(ADD_USER, {
-    refetchQueries: [{
-      query: GET_RANKINGS,
-      variables: {
-        game: "proset",
-        level: parseInt(level),
-        limit: boardLimit,
-      }
-    }],
+    refetchQueries: [
+      {
+        query: GET_RANKINGS,
+        variables: {
+          game: "proset",
+          level: parseInt(level),
+          limit: boardLimit,
+        }
+      },
+      {
+        query: GET_RECENT,
+        variables: {
+          game: "proset",
+          level: parseInt(level),
+          limit: recentLimit,
+          time: 86400000,
+        }
+      },
+    ],
     onError: error => { return },
     onCompleted: data => { return },
   })
@@ -247,12 +269,11 @@ const Level = ({ level, setEntry }) => {
         if (promptCount == 5) {
           let time = timer.getTime().getTime()
           time = Math.floor(time/10)*10
-          let newRecord = true
           const boardLength = data.usersBy1.length
-          if (boardLength == boardLimit) {
-            newRecord = data.usersBy1[boardLimit-1].score1 > time
-            console.log(newRecord,time,data.usersBy1)
-          }
+          const recentLength = recentData.recentUsersBy1.length
+          const newRecord = boardLength != boardLimit || recentLength != recentLimit
+            || data.usersBy1[boardLimit-1].score1 > time
+            || recentData.recentUsersBy1[recentLimit-1].score1 > time
           if (newRecord) {
             let initials = prompt("You made the leaderboard! Name?")
             initials = !!initials ? initials : "anonymous"
