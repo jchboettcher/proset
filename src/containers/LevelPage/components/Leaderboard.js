@@ -56,12 +56,12 @@ const Leaderboard = ({ level, boldEntry, recent }) => {
           </tr>
         </StyledTableHead>
         <StyledTableBody>
-        {queryLoading || queryError || (
-          fixData(data)[queryString].map(entry => (
+        {queryLoading || !!queryError || (
+          fixData(data)[queryString].map((entry,idx) => (
             entry ? (
               <Entry
                 key={entry.id}
-                index={data[queryString].indexOf(entry)}
+                index={idx}
                 {...entry}
               />
             ) : ''
@@ -69,7 +69,7 @@ const Leaderboard = ({ level, boldEntry, recent }) => {
         </StyledTableBody>
       </StyledTable>
       {queryLoading && <Paragraph>Fetching data...</Paragraph>}
-      {queryError && <Paragraph>Failed to fetch data, try refreshing the page.</Paragraph>}
+      {!!queryError && <Paragraph>Failed to fetch data, try refreshing the page.</Paragraph>}
     </>
   )
 }

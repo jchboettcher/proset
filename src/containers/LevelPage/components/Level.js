@@ -241,6 +241,29 @@ const Level = ({ level, setEntry }) => {
   const draw = (p5) => {
     p5.background(247)
     p5.push()
+    if (queryLoading || recentLoading || !!queryError || !!recentError) {
+      p5.textAlign(p5.CENTER,p5.CENTER)
+      p5.textStyle(p5.BOLD)
+      p5.fill(255,255,255,200)
+      p5.stroke(0)
+      p5.strokeWeight(3)
+      p5.translate(p5.width/2,p5.height/2)
+      if (queryLoading || recentLoading) {
+        p5.textSize(80)
+        p5.text("Loading...",0,0)
+      } else {
+        p5.textSize(43)
+        p5.translate(0,-p5.textAscent()-btwn/2)
+        p5.text("Sorry, could not access leaderboard!",0,0)
+        p5.translate(0,p5.textAscent()+btwn/2)
+        p5.text("Please check your network connection",0,0)
+        p5.translate(0,p5.textAscent()+btwn/2)
+        p5.text("and refresh the page.",0,0)
+      }
+      return
+    }
+    p5.strokeWeight(1)
+    p5.textStyle(p5.NORMAL)
     p5.fill(210)
     p5.rect(0.5,0.5,p5.width-1,menusize-1)
     if (!!cards) {
@@ -269,26 +292,28 @@ const Level = ({ level, setEntry }) => {
         if (promptCount == 5) {
           let time = timer.getTime().getTime()
           time = Math.floor(time/10)*10
-          const boardLength = data.usersBy1.length
-          const recentLength = recentData.recentUsersBy1.length
-          const newRecord = boardLength != boardLimit || recentLength != recentLimit
-            || data.usersBy1[boardLimit-1].score1 > time
-            || recentData.recentUsersBy1[recentLimit-1].score1 > time
-          if (newRecord) {
-            let initials = prompt("You made the leaderboard! Name?")
-            initials = !!initials ? initials : "anonymous"
-            setEntry({name: initials, score1: time})
-            addUser({
-              variables: {
-                input: {
-                  name: initials,
-                  game: "proset",
-                  level: n,
-                  score1: time,
-                  score2: 0,
+          if (!queryError && !recentError) {
+            const boardLength = data.usersBy1.length
+            const recentLength = recentData.recentUsersBy1.length
+            const newRecord = boardLength != boardLimit || recentLength != recentLimit
+              || data.usersBy1[boardLimit-1].score1 > time
+              || recentData.recentUsersBy1[recentLimit-1].score1 > time
+            if (newRecord) {
+              let initials = prompt("You made the leaderboard! Name?")
+              initials = !!initials ? initials : "anonymous"
+              setEntry({name: initials, score1: time})
+              addUser({
+                variables: {
+                  input: {
+                    name: initials,
+                    game: "proset",
+                    level: n,
+                    score1: time,
+                    score2: 0,
+                  }
                 }
-              }
-            })
+              })
+            }
           }
         }
         if (progressBar.t > 0.95) {
@@ -297,6 +322,28 @@ const Level = ({ level, setEntry }) => {
       }
     } else {
       startOver(p5)
+    }
+    if (queryLoading || recentLoading || addLoading || !!queryError || !!recentError || !!addError) {
+      p5.textAlign(p5.CENTER,p5.CENTER)
+      p5.textStyle(p5.BOLD)
+      p5.fill(255,255,255,200)
+      p5.stroke(0)
+      p5.strokeWeight(3)
+      if (queryLoading || recentLoading || addLoading) {
+        p5.textSize(60)
+        p5.translate(0,-menusize/2-p5.textAscent()/2-btwn/4)
+        p5.text("Submitting score...",0,0)
+        p5.translate(0,p5.textAscent()+btwn/2)
+        p5.text("Don't refresh the page.",0,0)
+      } else {
+        p5.textSize(43)
+        p5.translate(0,-menusize/2-p5.textAscent()-btwn/2)
+        p5.text("Sorry, could not access leaderboard!",0,0)
+        p5.translate(0,p5.textAscent()+btwn/2)
+        p5.text("Please check your network connection",0,0)
+        p5.translate(0,p5.textAscent()+btwn/2)
+        p5.text("and refresh the page.",0,0)
+      }
     }
     p5.pop()
   }
@@ -414,6 +461,7 @@ const Level = ({ level, setEntry }) => {
       const rat0 = 0.55615234375
       const rat1 = 4.17041015625
       const [hrs, rst] = this.getTimeString()
+      this.p5.noStroke()
       this.p5.textSize(timerWidth/(rat1+hrs.length*rat0))
       this.p5.translate(this.x+timerWidth-this.p5.textWidth(':00:00.00'),this.y)
       this.p5.fill(0)
