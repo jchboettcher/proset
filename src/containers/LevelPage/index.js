@@ -35,8 +35,8 @@ export const LevelPage = () => {
               <EmptyDiv/>
               <UnderDiv>
                 <LeftDiv>
-                  <LeaderboardHeader>{`User Personal Bests (top ${topLimit})`}</LeaderboardHeader>
-                  <Leaderboard level={level} boldEntry={entry} query={GET_TOP} queryString="topUsersBy1" queryLimit={topLimit} />
+                  <LeaderboardHeader>{`All Time (top ${boardLimit})`}</LeaderboardHeader>
+                  <Leaderboard level={level} boldEntry={entry} query={GET_RANKINGS} queryString="usersBy1" queryLimit={boardLimit}/>
                 </LeftDiv>
                 { entry.name && <LeftDiv style={{marginLeft: "60px"}}>
                   <LeaderboardHeader style={{marginBottom: "2px"}}>{`Personal Records`}</LeaderboardHeader>
@@ -48,8 +48,8 @@ export const LevelPage = () => {
               <LeaderboardHeader>{`Last 24 Hours (top ${recentLimit})`}</LeaderboardHeader>
               <Leaderboard level={level} boldEntry={entry} query={GET_RECENT} queryString="recentUsersBy1" queryLimit={recentLimit} />
               <EmptyDiv/>
-              <LeaderboardHeader>{`All Time (top ${boardLimit})`}</LeaderboardHeader>
-              <Leaderboard level={level} boldEntry={entry} query={GET_RANKINGS} queryString="usersBy1" queryLimit={boardLimit}/>
+              <LeaderboardHeader>{`User Personal Bests (top ${topLimit})`}</LeaderboardHeader>
+              <Leaderboard level={level} boldEntry={entry} query={GET_TOP} queryString="topUsersBy1" queryLimit={topLimit} />
             </LeaderboardDiv>
           </BodyDiv>
       </BackgroundDiv>
