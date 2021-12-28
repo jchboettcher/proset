@@ -230,17 +230,17 @@ const Level = ({ level, entry, setEntry }) => {
     }
   }
 
-  let released = true
+  // let released = true
 
-  const mouseReleased = p5 => {
-    released = true
-  }
+  // const mouseReleased = p5 => {
+  //   released = true
+  // }
 
   const mousePressed = p5 => {
-    if (!released) {
-      return
-    }
-    released = false
+    // if (!released) {
+    //   return
+    // }
+    // released = false
     if (!!cards) {
       for (let i = 0; i < n+1; i++) {
         let {x,y} = locs[i]
@@ -640,7 +640,7 @@ const Level = ({ level, entry, setEntry }) => {
   }
 
   return (
-    <Sketch setup={setup} draw={draw} mousePressed={mousePressed} mouseReleased={mouseReleased} />
+    <Sketch setup={setup} draw={draw} mousePressed={mousePressed} />
   )
 }
 
