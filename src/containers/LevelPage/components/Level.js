@@ -2,10 +2,10 @@ import React, { useEffect } from 'react'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import Sketch from 'react-p5'
 import { useHistory } from 'react-router-dom'
-import { GET_RANKINGS, GET_RECENT, ADD_USER } from '../../graphql'
-import { boardLimit, recentLimit } from '../'
+import { GET_RANKINGS, GET_RECENT, GET_TOP, GET_USER, ADD_USER } from '../../graphql'
+import { boardLimit, recentLimit, topLimit } from '../'
 
-const Level = ({ level, setEntry }) => {
+const Level = ({ level, entry, setEntry }) => {
   const history = useHistory()
   useEffect(() => {
     document.title = `ProSet - ${level}`
@@ -31,6 +31,16 @@ const Level = ({ level, setEntry }) => {
     onError: error => { return },
     onCompleted: data => { return },
   })
+  const { data: topData, error: topError, loading: topLoading } = useQuery(GET_TOP, {
+    variables: {
+      game: "proset",
+      level: parseInt(level),
+      limit: topLimit,
+    },
+    partialRefetch: true,
+    onError: error => { return },
+    onCompleted: data => { return },
+  })
   const [addUser, { data: addData, error: addError, loading: addLoading}] = useMutation(ADD_USER, {
     refetchQueries: [
       {
@@ -49,6 +59,22 @@ const Level = ({ level, setEntry }) => {
           limit: recentLimit,
           time: 86400000,
         }
+      },
+      {
+        query: GET_TOP,
+        variables: {
+          game: "proset",
+          level: parseInt(level),
+          limit: topLimit,
+        },
+      },
+      {
+        query: GET_USER,
+        variables: {
+          game: "proset",
+          level: parseInt(level),
+          name: entry.name,
+        },
       },
     ],
     onError: error => { return },
@@ -96,7 +122,7 @@ const Level = ({ level, setEntry }) => {
     startOver(p5)
   }
 
-  const startOver = (p5) => {
+  const startOver = p5 => {
     n = parseInt(level)
     w = (n == 5 || n == 6) ? side*5/7 : side
     row = (n > 6) ? 3 : 2
@@ -156,7 +182,7 @@ const Level = ({ level, setEntry }) => {
     })
   }
 
-  const reset = (p5) => {
+  const reset = p5 => {
     cards = []
     for (let i = tot-1; i >0; i--) {
       cards.push(new Card(i.toString(2).padStart(n,'0').split("").map(el => el=="1"), p5))
@@ -204,7 +230,17 @@ const Level = ({ level, setEntry }) => {
     }
   }
 
-  const mousePressed = (p5) => {
+  let released = true
+
+  const mouseReleased = p5 => {
+    released = true
+  }
+
+  const mousePressed = p5 => {
+    if (!released) {
+      return
+    }
+    released = false
     if (!!cards) {
       for (let i = 0; i < n+1; i++) {
         let {x,y} = locs[i]
@@ -238,17 +274,17 @@ const Level = ({ level, setEntry }) => {
     }
   }
 
-  const draw = (p5) => {
+  const draw = p5 => {
     p5.background(247)
     p5.push()
-    if (queryLoading || recentLoading || !!queryError || !!recentError) {
+    if (!!queryLoading || !!recentLoading || !!topLoading || !!queryError || !!recentError || !!topError) {
       p5.textAlign(p5.CENTER,p5.CENTER)
       p5.textStyle(p5.BOLD)
       p5.fill(255,255,255,200)
       p5.stroke(0)
       p5.strokeWeight(3)
       p5.translate(p5.width/2,p5.height/2)
-      if (queryLoading || recentLoading) {
+      if (!!queryLoading || !!recentLoading || !!topLoading) {
         p5.textSize(80)
         p5.text("Loading...",0,0)
       } else {
@@ -292,27 +328,31 @@ const Level = ({ level, setEntry }) => {
         if (promptCount == 5) {
           let time = timer.getTime().getTime()
           time = Math.floor(time/10)*10
-          if (!queryError && !recentError) {
-            const boardLength = data.usersBy1.length
-            const recentLength = recentData.recentUsersBy1.length
-            const newRecord = boardLength != boardLimit || recentLength != recentLimit
-              || data.usersBy1[boardLimit-1].score1 > time
-              || recentData.recentUsersBy1[recentLimit-1].score1 > time
+          if (!queryError && !recentError && !topError) {
+            // const boardLength = data.usersBy1.length
+            // const recentLength = recentData.recentUsersBy1.length
+            // const newRecord = boardLength != boardLimit || recentLength != recentLimit
+            //   || data.usersBy1[boardLimit-1].score1 > time
+            //   || recentData.recentUsersBy1[recentLimit-1].score1 > time
+            const newRecord = true
             if (newRecord) {
-              let initials = prompt("You made the leaderboard! Name?")
-              initials = !!initials ? initials : "anonymous"
-              setEntry({name: initials, score1: time})
-              addUser({
-                variables: {
-                  input: {
-                    name: initials,
-                    game: "proset",
-                    level: n,
-                    score1: time,
-                    score2: 0,
+              // let initials = prompt("You made the leaderboard! Name?")
+              let initials = prompt("Submit?")
+              if (initials == "" || !!initials) {
+                initials = !!initials ? initials : "anonymous"
+                setEntry({name: initials, score1: time})
+                addUser({
+                  variables: {
+                    input: {
+                      name: initials,
+                      game: "proset",
+                      level: n,
+                      score1: time,
+                      score2: 0,
+                    }
                   }
-                }
-              })
+                })
+              }
             }
           }
         }
@@ -600,7 +640,7 @@ const Level = ({ level, setEntry }) => {
   }
 
   return (
-    <Sketch setup={setup} draw={draw} mousePressed={mousePressed} />
+    <Sketch setup={setup} draw={draw} mousePressed={mousePressed} mouseReleased={mouseReleased} />
   )
 }
 

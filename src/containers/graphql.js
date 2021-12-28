@@ -28,6 +28,34 @@ export const GET_RECENT = gql`
   }
 `
 
+export const GET_TOP = gql`
+  query topUsersBy1($game: String!, $level: Int!, $limit: Int!) {
+    topUsersBy1(game: $game, level: $level, limit: $limit) {
+      id
+      name
+      game
+      level
+      score1
+      score2
+      createdAt
+    }
+  }
+`
+
+export const GET_USER = gql`
+  query userByName1($game: String!, $level: Int!, $name: String!) {
+    userByName1(game: $game, level: $level, name: $name) {
+      id
+      name
+      game
+      level
+      score1
+      score2
+      createdAt
+    }
+  }
+`
+
 export const ADD_USER = gql`
   mutation addUser($input: AddUser!) {
     addUser(input: $input) {

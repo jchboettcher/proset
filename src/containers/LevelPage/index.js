@@ -2,13 +2,15 @@ import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import {
   BackgroundDiv, CenterDiv, BodyDiv, EmptyDiv, Subtitle,
-  Paragraph, Title, LeaderboardDiv, LeaderboardHeader,
+  Paragraph, Title, LeaderboardDiv, LeaderboardHeader, LeftDiv, UnderDiv,
 } from './styles'
 import Level from './components/Level'
 import Leaderboard from './components/Leaderboard'
+import { GET_RANKINGS, GET_RECENT, GET_TOP, GET_USER } from '../graphql'
 
-export const boardLimit = 100
+export const boardLimit = 250
 export const recentLimit = 10
+export const topLimit = 50
 
 export const LevelPage = () => {
   const { level } = useParams()
@@ -28,13 +30,26 @@ export const LevelPage = () => {
             When you submit a valid set, those cards will disappear and you'll be dealt new cards to fill their spots. You win when you deplete the whole deck.
           </Paragraph>
           <BodyDiv>
-            <Level level={level} setEntry={setEntry} />
+            <LeftDiv style={{paddingBottom: "0"}}>
+              <Level level={level} entry={entry} setEntry={setEntry} />
+              <EmptyDiv/>
+              <UnderDiv>
+                <LeftDiv>
+                  <LeaderboardHeader>{`User Personal Bests (top ${topLimit})`}</LeaderboardHeader>
+                  <Leaderboard level={level} boldEntry={entry} query={GET_TOP} queryString="topUsersBy1" queryLimit={topLimit} />
+                </LeftDiv>
+                { entry.name && <LeftDiv style={{marginLeft: "60px"}}>
+                  <LeaderboardHeader style={{marginBottom: "2px"}}>{`Personal Records`}</LeaderboardHeader>
+                  <Leaderboard level={level} boldEntry={entry} query={GET_USER} queryString="userByName1" queryName={entry.name} entry={entry} />
+                </LeftDiv> }
+              </UnderDiv>
+            </LeftDiv>
             <LeaderboardDiv>
               <LeaderboardHeader>{`Last 24 Hours (top ${recentLimit})`}</LeaderboardHeader>
-              <Leaderboard level={level} boldEntry={entry} recent />
+              <Leaderboard level={level} boldEntry={entry} query={GET_RECENT} queryString="recentUsersBy1" queryLimit={recentLimit} />
               <EmptyDiv/>
               <LeaderboardHeader>{`All Time (top ${boardLimit})`}</LeaderboardHeader>
-              <Leaderboard level={level} boldEntry={entry} />
+              <Leaderboard level={level} boldEntry={entry} query={GET_RANKINGS} queryString="usersBy1" queryLimit={boardLimit}/>
             </LeaderboardDiv>
           </BodyDiv>
       </BackgroundDiv>

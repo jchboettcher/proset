@@ -17,6 +17,18 @@ export const LeaderboardDiv = styled.div`
   flex-direction: column;
 `
 
+export const LeftDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 75px;
+`
+
+export const UnderDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-content: flex-start;
+`
+
 export const CenterDiv = styled.div`
   display: flex;
   justify-content: left;

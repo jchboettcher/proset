@@ -2,7 +2,7 @@ import React from 'react'
 import { RankTd, NameTd, TimeTd, DateTd } from '../styles'
 
 const Entry = ({
-  index, name, score1, createdAt, bold,
+  index, name, score1, createdAt, bold, queryName,
 }) => {
   const pad = (s) => {
     return (s < 10 ? "0" : "") + s
@@ -47,7 +47,7 @@ const Entry = ({
   return (
     <tr>
       <RankTd style={extraStyle}>{`${index + 1}`}</RankTd>
-      <NameTd style={nameStyle}>{`${name}`}</NameTd>
+      { !queryName && <NameTd style={nameStyle}>{`${name}`}</NameTd> }
       <TimeTd style={extraStyle}>{`${getTimeString(score1)}`}</TimeTd>
       <DateTd style={extraStyle}>{`${getDateString(createdAt)}`}</DateTd>
     </tr>

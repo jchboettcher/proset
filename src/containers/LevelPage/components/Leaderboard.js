@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import Entry from './Entry'
 import {
@@ -10,18 +10,16 @@ import {
   StyledTableBody,
   StyledTableHead,
   Paragraph,
+  Subtitle,
 } from '../styles'
-import { GET_RANKINGS, GET_RECENT } from '../../graphql'
-import { boardLimit, recentLimit } from '../'
 
-const Leaderboard = ({ level, boldEntry, recent }) => {
-  const query = !!recent ? GET_RECENT : GET_RANKINGS
-  const queryString = !!recent ? "recentUsersBy1" : "usersBy1"
+const Leaderboard = ({ level, boldEntry, query, queryString, queryLimit, queryName, entry }) => {
   const { data, error: queryError, loading: queryLoading } = useQuery(query, {
     variables : {
       game: "proset",
       level: parseInt(level),
-      limit: !!recent ? recentLimit : boardLimit,
+      name: queryName,
+      limit: queryLimit,
       time: 86400000,
     },
     partialRefetch: true,
@@ -44,13 +42,19 @@ const Leaderboard = ({ level, boldEntry, recent }) => {
     }
     return data
   }
+  const count = data => {
+    return data[queryString].length
+  }
   return (
     <>
+      { !!queryName && !queryLoading && !queryError &&
+        <Subtitle style={{marginBottom: "13px"}}>{entry.name}: {!!count(data) ? count(data) : 0} submission{(count(data) != 1) ? "s" : ""}</Subtitle>
+      }
       <StyledTable>
         <StyledTableHead>
           <tr>
             <RankTd>Rank</RankTd>
-            <NameTd id="Name">Name</NameTd>
+            { !queryName && <NameTd id="Name">Name</NameTd> }
             <TimeTd>Time</TimeTd>
             <DateTd>Timestamp (ET)</DateTd>
           </tr>
@@ -62,6 +66,7 @@ const Leaderboard = ({ level, boldEntry, recent }) => {
               <Entry
                 key={entry.id}
                 index={idx}
+                queryName={queryName}
                 {...entry}
               />
             ) : ''
