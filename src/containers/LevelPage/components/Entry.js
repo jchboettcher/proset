@@ -44,10 +44,20 @@ const Entry = ({
   if (name == "anonymous") {
     nameStyle.fontStyle = "italic"
   }
+  const censoredName = name
+    .replace("fuck","f***")
+    .replace("fuk","f**")
+    .replace("shit","s***")
+    .replace("bitch","b****")
+    .replace(/^ass$/,"a**")
+    .replace(" ass "," a** ")
+    .replace(/^ass /,"a** ")
+    .replace(/ ass$/," a**")
+    .replace("dick","d***")
   return (
     <tr>
       <RankTd style={extraStyle}>{`${index + 1}`}</RankTd>
-      { !queryName && <NameTd style={nameStyle}>{`${name}`}</NameTd> }
+      { !queryName && <NameTd style={nameStyle}>{`${censoredName}`}</NameTd> }
       <TimeTd style={extraStyle}>{`${getTimeString(score1)}`}</TimeTd>
       <DateTd style={extraStyle}>{`${getDateString(createdAt)}`}</DateTd>
     </tr>
