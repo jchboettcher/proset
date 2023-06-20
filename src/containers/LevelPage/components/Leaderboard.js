@@ -40,6 +40,9 @@ const Leaderboard = ({ level, boldEntry, query, queryString, queryLimit, queryNa
     if (maxInd != null) {
       data[queryString][maxInd].bold = true
     }
+    if (queryString == "recentUsersBy1") {
+      data[queryString] = data[queryString].filter(e => e.name != "sarah");
+    }
     return data
   }
   const count = data => {
