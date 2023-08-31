@@ -19,7 +19,7 @@ const Leaderboard = ({ level, boldEntry, query, queryString, queryLimit, queryNa
       game: "proset",
       level: parseInt(level),
       name: queryName,
-      limit: queryLimit+(queryString == "recentUsersBy1" ? 100 : 0),
+      limit: queryLimit,
       time: 86400000,
     },
     partialRefetch: true,
@@ -39,9 +39,6 @@ const Leaderboard = ({ level, boldEntry, query, queryString, queryLimit, queryNa
     }
     if (maxInd != null) {
       data[queryString][maxInd].bold = true
-    }
-    if (queryString == "recentUsersBy1") {
-      data[queryString] = data[queryString].filter(e => e.name != "sarah").slice(0,queryLimit);
     }
     return data
   }
